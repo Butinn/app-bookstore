@@ -7,45 +7,45 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.mob2041_duanmauandroid.QuanlyvsThongke.Quanlysach.QuanlysachFragment"
+        android:name="com.example.appBookstore.QuanlyvsThongke.Quanlysach.QuanlysachFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_sach" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.mob2041_duanmauandroid.QuanlyvsThongke.Quanlytheloaisach.QuanlytheloaiFragment"
+        android:name="com.example.appBookstore.QuanlyvsThongke.Quanlytheloaisach.QuanlytheloaiFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_loáiach" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.mob2041_duanmauandroid.QuanlyvsThongke.Quanlithanhvien.QuanlithanhvienFragment"
+        android:name="com.example.appBookstore.QuanlyvsThongke.Quanlithanhvien.QuanlithanhvienFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_quanlythanhvien" />
     <fragment
         android:id="@+id/nav_Quanlyphieu"
-        android:name="com.example.mob2041_duanmauandroid.QuanlyvsThongke.Phieumuon.PhieumuonFragment"
+        android:name="com.example.appBookstore.QuanlyvsThongke.Phieumuon.PhieumuonFragment"
         android:label="@string/menu_Phieu"
         tools:layout="@layout/fragment_phieumuon" />
     <fragment
         android:id="@+id/nav_top10"
-        android:name="com.example.mob2041_duanmauandroid.QuanlyvsThongke.Thongketop10.Thongketo10Fragment"
+        android:name="com.example.appBookstore.QuanlyvsThongke.Thongketop10.Thongketo10Fragment"
         android:label="Thống Kê Top 10"
         tools:layout="@layout/fragment_thongketo10" />
     <fragment
         android:id="@+id/nav_tong"
-        android:name="com.example.mob2041_duanmauandroid.QuanlyvsThongke.DoanhThu.DoanhThuFragment"
+        android:name="com.example.appBookstore.QuanlyvsThongke.DoanhThu.DoanhThuFragment"
         android:label="Thống Kê Tổng"
         tools:layout="@layout/fragment_thongkedoanhthu" />
 
     <fragment
         android:id="@+id/nav_admin"
-        android:name="com.example.mob2041_duanmauandroid.Taonv.Singup"
+        android:name="com.example.appBookstore.Taonv.Singup"
         android:label="Tạo Nhân Viên"
-        tools:layout="@layout/singup_activity" />
+        tools:layout="@layout/signup_activity" />
     <fragment
         android:id="@+id/nav_doimk"
-        android:name="com.example.mob2041_duanmauandroid.Login.DoiPass"
+        android:name="com.example.appBookstore.Login.DoiPass"
         android:label="Đổi Mật Khẩu"
         tools:layout="@layout/doipass_fragment" />
 
