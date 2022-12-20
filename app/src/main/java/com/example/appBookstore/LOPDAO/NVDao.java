@@ -32,6 +32,7 @@ public class NVDao {
         ContentValues values = new ContentValues();
         values.put(NhanVien.COL_MANV, nhanVien.getMaNV());
         values.put(NhanVien.COL_TENNV, nhanVien.getHoTen());
+//        String hashPass = BCrypt.hashpw(nhanVien.getMaKhau(), BCrypt.gensalt(12));
         values.put(NhanVien.COL_MK, nhanVien.getMaKhau());
         return sqlite.insert(NhanVien.TB_NAME, null, values);
     }

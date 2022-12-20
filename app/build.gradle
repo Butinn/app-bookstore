@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.mob2041_duanmauandroid"
+        applicationId "com.example.appBookstore"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
