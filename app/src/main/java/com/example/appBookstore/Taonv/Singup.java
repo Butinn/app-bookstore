@@ -69,7 +69,12 @@ public class Singup extends Fragment {
                         nhanVien.setHoTen(edhoten.getText().toString());
                         nhanVien.setMaKhau(edPass.getText().toString());
                         if (checkrong() > 0) {
-                            long kq = dao.ADDNV(nhanVien);
+                            long kq = 0;
+                            try {
+                                kq = dao.ADDNV(nhanVien);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             if (kq > 0) {
                                 Toast.makeText(getActivity(), "Tạo Tài khoản thành công", Toast.LENGTH_SHORT).show();
                                 edUser.setText("");
