@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPDAO.NVDao;
 import com.example.appBookstore.LOPPRODUCT.NhanVien;
 import com.example.appBookstore.MainActivity;
@@ -36,7 +37,11 @@ public class Login extends AppCompatActivity {
 //        NhanVien nhanVien = nvdao.getUser("admin");
         nvdao.OPEN();
         if (nvdao.getUserName("admin") < 0) {
-            nvdao.ADDNV(new NhanVien("admin", "admin", "admin"));
+            try {
+                nvdao.ADDNV(new NhanVien("admin", AES.encrypt("abcd","admin"), "admin"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         // Đọc Sharepreferences
         SharedPreferences preferences = getSharedPreferences("USER_FILE", MODE_PRIVATE);
