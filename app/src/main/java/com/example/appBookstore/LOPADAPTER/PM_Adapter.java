@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPDAO.PhieuMuonDao;
 import com.example.appBookstore.LOPDAO.SachDao;
 import com.example.appBookstore.LOPDAO.ThanhVienDao;
@@ -99,7 +100,11 @@ public class PM_Adapter extends RecyclerView.Adapter<PM_Adapter.PhieuMuonhoder> 
             // lấy tên sách
 //            SachDao sachDao = new SachDao(context);
 //            Sach sach = sachDao.getId(phieuMuon.getMaSpm() + "");
-            holder.tv_maspm.setText("Tên Sách: " + tenSach + "");
+            try {
+                holder.tv_maspm.setText("Tên Sách: " + AES.decrypt(tenSach) + "");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             // fomat tiền
             Locale locale = new Locale("nv", "VN");
             NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
@@ -175,6 +180,14 @@ public class PM_Adapter extends RecyclerView.Adapter<PM_Adapter.PhieuMuonhoder> 
                 vienDao = new ThanhVienDao(view.getContext());
                 vienArrayList = new ArrayList<>();
                 vienArrayList = (ArrayList<ThanhVien>) vienDao.GETTV();
+                for (ThanhVien tv:vienArrayList)
+                {
+                    try {
+                        tv.setHoTenTV(AES.decrypt(tv.getHoTenTV()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 thanhVienSpiner = new ThanhVienSpiner(view.getContext(), vienArrayList);
                 spn_tved.setAdapter(thanhVienSpiner);
                 spn_tved.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -195,6 +208,14 @@ public class PM_Adapter extends RecyclerView.Adapter<PM_Adapter.PhieuMuonhoder> 
                 sachDaoe = new SachDao(view.getContext());
                 sachArrayList = new ArrayList<>();
                 sachArrayList = (ArrayList<Sach>) sachDaoe.GETS();
+                for (Sach sach:sachArrayList)
+                      {
+                          try {
+                              sach.setTens(AES.decrypt(sach.getTens()));
+                          } catch (Exception e) {
+                              e.printStackTrace();
+                          }
+                      }
                 sachSpiner = new SachSpiner(view.getContext(), sachArrayList);
                 spn_sached.setAdapter(sachSpiner);
                 spn_sached.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

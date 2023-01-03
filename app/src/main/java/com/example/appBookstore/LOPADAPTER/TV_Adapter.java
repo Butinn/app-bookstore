@@ -21,6 +21,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPPRODUCT.ThanhVien;
 import com.example.appBookstore.LOPDAO.ThanhVienDao;
 import com.example.appBookstore.R;
@@ -60,7 +61,11 @@ public class TV_Adapter extends RecyclerView.Adapter<TV_Adapter.tvhoder> impleme
         } else {
             holder.tv_vtri.setText("Vị Trí: " + (position + 1));
             holder.tv_maTV.setText("Mã TV: " + thanhVien.getIDTV() + "");
-            holder.tv_hoten.setText("Họ Và Tên: " + thanhVien.getHoTenTV());
+            try {
+                holder.tv_hoten.setText("Họ Và Tên: " + AES.decrypt(thanhVien.getHoTenTV()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             holder.tv_namsinh.setText("Năm Sinh: " + thanhVien.getNamsinhTV());
         }
         if (position % 2 == 1 || position % 2 != 0) {
@@ -117,7 +122,11 @@ public class TV_Adapter extends RecyclerView.Adapter<TV_Adapter.tvhoder> impleme
                 dialog.setTitle("                Sửa Thành Viên ");
                 EditText ed_edhotentv = view.findViewById(R.id.ed_hotentvedit);
                 EditText ed_namsinhtv = view.findViewById(R.id.ed_namstvedit);
-                ed_edhotentv.setText(thanhVien.getHoTenTV());
+                try {
+                    ed_edhotentv.setText(AES.decrypt(thanhVien.getHoTenTV()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 ed_namsinhtv.setText(thanhVien.getNamsinhTV());
                 AppCompatButton btn_save = view.findViewById(R.id.btn_themtvsua);
                 AppCompatButton btn_huy = view.findViewById(R.id.btn_clentvedit);

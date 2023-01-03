@@ -10,36 +10,26 @@ import javax.crypto.spec.SecretKeySpec;
 public class AES {
     private static final String ALGORITHM = "AES";
     private final static String HEX = "0123456789ABCDEF";
+    private static final byte raw[] = {-95, 84, -59, 37, 101, -23, -25, -7, 75, -4, 8, -95, -2, 112, 38, 36};
+
 
 
     //     sử dụng hàm này khi cần mã hóa dữ liệu
-    public static String encrypt(String seed, String cleartext) throws Exception {
-        byte[] rawKey = getRawKey(seed.getBytes());
+    public static String encrypt( String cleartext) throws Exception {
+        byte[] rawKey = raw;
         byte[] result = encrypt(rawKey, cleartext.getBytes());
         return toHex(result);
     }
 
     // sử dụng hàm này khi cần giải mã dữ liệu
-    public static String decrypt(String seed, String encrypted) throws Exception {
-        byte[] rawKey = getRawKey(seed.getBytes());
+    public static String decrypt( String encrypted) throws Exception {
+        byte[] rawKey = raw;
         byte[] enc = toByte(encrypted);
         byte[] result = decrypt(rawKey, enc);
         return new String(result);
     }
-    private static byte[] getRawKey(byte[] seed) throws Exception {
-        KeyGenerator kgen =
-                KeyGenerator.getInstance(ALGORITHM);  // tạo ra các khóa bí mật có thể dùng lại
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG"); // tạo ra mã ngẫu nhiên
-        sr.setSeed(
-                seed); //Reseeds this random object, using the eight bytes contained in the given long seed.
-        kgen.init(128, sr); // sử dụng AES-128
-        SecretKey skey = kgen.generateKey();
-        byte[] raw =
-                skey.getEncoded();  // return the raw key bytes as the result of a getEncoded method call.
-        return raw;
-    }
 
-    private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
+     private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
         SecretKeySpec skeySpec = new SecretKeySpec(raw, ALGORITHM);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);

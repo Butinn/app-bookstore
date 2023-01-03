@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPADAPTER.Nv_Adapter;
 import com.example.appBookstore.LOPPRODUCT.NhanVien;
 import com.example.appBookstore.LOPDAO.NVDao;
@@ -66,8 +67,14 @@ public class Singup extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         NhanVien nhanVien = new NhanVien();
                         nhanVien.setMaNV(edUser.getText().toString());
-                        nhanVien.setHoTen(edhoten.getText().toString());
-                        nhanVien.setMaKhau(edPass.getText().toString());
+                        try {
+                            nhanVien.setHoTen( AES.encrypt(edhoten.getText().toString()));
+                            nhanVien.setMaKhau(AES.encrypt(edPass.getText().toString()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
                         if (checkrong() > 0) {
                             long kq = 0;
                             try {

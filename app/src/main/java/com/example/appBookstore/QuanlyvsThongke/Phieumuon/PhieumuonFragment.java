@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPADAPTER.PM_Adapter;
 import com.example.appBookstore.LOPDAO.PhieuMuonDao;
 import com.example.appBookstore.LOPDAO.SachDao;
@@ -155,6 +156,14 @@ public class PhieumuonFragment extends Fragment {
                 vienDao = new ThanhVienDao(getContext());
                 vienArrayList = new ArrayList<>();
                 vienArrayList = (ArrayList<ThanhVien>) vienDao.GETTV();
+                for (ThanhVien tv:vienArrayList)
+                {
+                    try {
+                        tv.setHoTenTV(AES.decrypt(tv.getHoTenTV()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 thanhVienSpiner = new ThanhVienSpiner(getContext(), vienArrayList);
                 spn_tv.setAdapter(thanhVienSpiner);
                 spn_tv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -174,6 +183,14 @@ public class PhieumuonFragment extends Fragment {
                 sachDao = new SachDao(getContext());
                 sachArrayList = new ArrayList<>();
                 sachArrayList = (ArrayList<Sach>) sachDao.GETS();
+                for (Sach sach:sachArrayList)
+                {
+                    try {
+                        sach.setTens(AES.decrypt(sach.getTens()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 sachSpiner = new SachSpiner(getContext(), sachArrayList);
                 spn_sach.setAdapter(sachSpiner);
                 spn_sach.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

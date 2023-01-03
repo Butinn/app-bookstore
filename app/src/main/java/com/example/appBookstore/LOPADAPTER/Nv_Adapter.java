@@ -57,7 +57,7 @@ public class Nv_Adapter extends BaseAdapter {
         TextView tv_acout = (TextView) view.findViewById(R.id.tv_id);
 //        tv_acout.setText("Họ và Tên: " +  nhanVien.getHoTen());
         try {
-            tv_acout.setText("Họ và Tên: " + AES.decrypt("abcd",nhanVien.getHoTen()) );
+            tv_acout.setText("Họ và Tên: " + AES.decrypt(nhanVien.getHoTen()));
         } catch (Exception e) {
             e.printStackTrace();
         }
