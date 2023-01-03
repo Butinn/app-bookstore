@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPPRODUCT.Top;
 import com.example.appBookstore.QuanlyvsThongke.Thongketop10.Thongketo10Fragment;
 import com.example.appBookstore.R;
@@ -43,7 +44,11 @@ public class Top10_Adapter extends ArrayAdapter<Top> {
         Top top = list.get(position);
         if (top != null) {
             tv_tenstk = view.findViewById(R.id.tv_tensachtk);
-            tv_tenstk.setText("Sách: " + top.tensach);
+            try {
+                tv_tenstk.setText("Sách: " + AES.decrypt(top.tensach));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             tv_sltk = view.findViewById(R.id.tv_slouongtk);
             tv_sltk.setText("Số Lượng " + top.soluong);
         }

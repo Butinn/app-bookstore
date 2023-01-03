@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPADAPTER.S_Adapter;
 import com.example.appBookstore.LOPDAO.LoaiSachDao;
 import com.example.appBookstore.LOPDAO.SachDao;
@@ -124,7 +125,7 @@ public class QuanlysachFragment extends Fragment {
                             try {
                                 int giaThue = Integer.parseInt(ed_gias.getText().toString());
                                 Sach sach = new Sach();
-                                sach.setTens(ed_tens.getText().toString());
+                                sach.setTens(AES.encrypt(ed_tens.getText().toString()));
                                 sach.setTacgia(ed_tacgia.getText().toString());
                                 sach.setGias(giaThue);
                                 sach.setMals(mals);

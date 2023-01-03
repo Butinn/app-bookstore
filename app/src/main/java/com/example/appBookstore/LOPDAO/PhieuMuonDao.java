@@ -85,7 +85,4 @@ public class PhieuMuonDao {
         return cursor.getInt(0);
     }
 
-
-
-
 }

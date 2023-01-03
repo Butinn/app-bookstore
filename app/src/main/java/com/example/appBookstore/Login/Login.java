@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPDAO.NVDao;
 import com.example.appBookstore.LOPPRODUCT.NhanVien;
 import com.example.appBookstore.MainActivity;
@@ -36,7 +37,11 @@ public class Login extends AppCompatActivity {
 //        NhanVien nhanVien = nvdao.getUser("admin");
         nvdao.OPEN();
         if (nvdao.getUserName("admin") < 0) {
-            nvdao.ADDNV(new NhanVien("admin", "admin", "admin"));
+            try {
+                nvdao.ADDNV(new NhanVien("admin", AES.encrypt("admin"), AES.encrypt("admin")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         // Đọc Sharepreferences
         SharedPreferences preferences = getSharedPreferences("USER_FILE", MODE_PRIVATE);
@@ -47,7 +52,11 @@ public class Login extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checklogin();
+                try {
+                    checklogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         btn_clear.setOnClickListener(new View.OnClickListener() {
@@ -59,14 +68,14 @@ public class Login extends AppCompatActivity {
 
     }
 
-    public void checklogin() {
+    public void checklogin() throws Exception {
         String usered = ed_user.getText().toString();
-        String passed = ed_pass.getText().toString();
+        String passed = AES.encrypt(ed_pass.getText().toString());
         if (usered.isEmpty() || passed.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Tên đăng nhập không được bỏ trống", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Tên đăng nhập hoặc mật khẩu không được bỏ trống", Toast.LENGTH_SHORT).show();
         } else {
-            if (nvdao.getlogin(usered, passed) > 0 || (usered.equalsIgnoreCase("admin") && passed.equalsIgnoreCase("admin"))
-                    || (usered.equalsIgnoreCase("user") && passed.equalsIgnoreCase("user"))) {
+            if (nvdao.getlogin(usered, passed) > 0 || (usered.equalsIgnoreCase("admin") && AES.decrypt(passed).equalsIgnoreCase("admin"))
+                    || (usered.equalsIgnoreCase("user") && AES.decrypt(passed).equalsIgnoreCase("user"))) {
                 Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 rememberUser(usered, passed, chk_remember.isChecked());
                 startActivity(intent = new Intent(Login.this, MainActivity.class).putExtra("admintion", usered));
@@ -78,7 +87,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void rememberUser(String user, String pass, boolean status) {
+    public void rememberUser(String user, String pass, boolean status) throws Exception {
         SharedPreferences pref = getSharedPreferences("USER_FILE", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         if (!status) {
@@ -87,7 +96,7 @@ public class Login extends AppCompatActivity {
         } else {
             // Lưu dữ liệu
             editor.putString("USERNAME", user);
-            editor.putString("PASSWORD", pass);
+            editor.putString("PASSWORD", AES.decrypt(pass));
             editor.putBoolean("REMEMBER", status);
         }
         // LƯu lại toàn bộ dữ liệu

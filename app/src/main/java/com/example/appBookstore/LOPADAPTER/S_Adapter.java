@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPDAO.LoaiSachDao;
 import com.example.appBookstore.LOPDAO.SachDao;
 import com.example.appBookstore.LOPPRODUCT.LoaiSach;
@@ -76,7 +77,11 @@ public class S_Adapter extends RecyclerView.Adapter<S_Adapter.SachHoder> impleme
 
             holder.tv_ms.setText("Mã Sách: " + sach.getMas() + "");
             holder.tv_mls.setText("Loại Sách: " + tenLoai);
-            holder.tv_tens.setText("Tên Sách: " + sach.getTens());
+            try {
+                holder.tv_tens.setText("Tên Sách: " + AES.decrypt(sach.getTens()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             holder.tv_tacgia.setText("Tác Giả: " + sach.getTacgia());
             Locale locale = new Locale("nv", "VN");
             NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPPRODUCT.Sach;
 import com.example.appBookstore.SQLopenhelper.CreateData;
 
@@ -20,7 +21,7 @@ public class SachDao {
         sqLiteDatabase = createData.getWritableDatabase();
     }
 
-    public long ADDS(Sach sach) {
+    public long ADDS(Sach sach) throws Exception {
         ContentValues values = new ContentValues();
         values.put(Sach.COL_NAME_MALS, sach.getMals());
         values.put(Sach.COL_NAME_TENS, sach.getTens());
@@ -33,10 +34,10 @@ public class SachDao {
         return sqLiteDatabase.delete(Sach.TB_NAME, "maSach=?", new String[]{String.valueOf(sach.getMas())});
     }
 
-    public int UPDATES(Sach sach) {
+    public int UPDATES(Sach sach) throws Exception {
         ContentValues values = new ContentValues();
         values.put(Sach.COL_NAME_MALS, sach.getMals());
-        values.put(Sach.COL_NAME_TENS, sach.getTens());
+        values.put(Sach.COL_NAME_TENS, AES.encrypt(sach.getTens()));
         values.put(Sach.COL_NAME_GIAS, sach.getGias());
         values.put(Sach.COL_NAME_tacgia, sach.getTacgia());
         return sqLiteDatabase.update(Sach.TB_NAME, values, "maSach=?", new String[]{String.valueOf(sach.getMas())});

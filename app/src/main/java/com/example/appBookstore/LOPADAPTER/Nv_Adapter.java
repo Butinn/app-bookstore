@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPPRODUCT.NhanVien;
 import com.example.appBookstore.LOPDAO.NVDao;
 import com.example.appBookstore.R;
@@ -54,9 +55,16 @@ public class Nv_Adapter extends BaseAdapter {
         TextView tv_user = (TextView) view.findViewById(R.id.tv_usernv);
         TextView tv_pss = (TextView) view.findViewById(R.id.tv_passnv);
         TextView tv_acout = (TextView) view.findViewById(R.id.tv_id);
-        tv_acout.setText("Họ và Tên: " + nhanVien.getHoTen());
+//        tv_acout.setText("Họ và Tên: " +  nhanVien.getHoTen());
+        try {
+            tv_acout.setText("Họ và Tên: " + AES.decrypt(nhanVien.getHoTen()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         tv_user.setText("USER: " + nhanVien.getMaNV());
         tv_pss.setText("PASS: ******** " );
+
         ImageView img_dele = view.findViewById(R.id.img_delete);
         img_dele.setOnClickListener(new View.OnClickListener() {
             @Override

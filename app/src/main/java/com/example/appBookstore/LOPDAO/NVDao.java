@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPPRODUCT.NhanVien;
 import com.example.appBookstore.SQLopenhelper.CreateData;
 
@@ -28,10 +29,10 @@ public class NVDao {
         createData.close();
     }
 
-    public long ADDNV(NhanVien nhanVien) {
+    public long ADDNV(NhanVien nhanVien) throws Exception {
         ContentValues values = new ContentValues();
         values.put(NhanVien.COL_MANV, nhanVien.getMaNV());
-        values.put(NhanVien.COL_TENNV, nhanVien.getHoTen());
+        values.put(NhanVien.COL_TENNV,nhanVien.getHoTen());
 //        String hashPass = BCrypt.hashpw(nhanVien.getMaKhau(), BCrypt.gensalt(12));
         values.put(NhanVien.COL_MK, nhanVien.getMaKhau());
         return sqlite.insert(NhanVien.TB_NAME, null, values);

@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.appBookstore.LOPPRODUCT.NhanVien;
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPDAO.NVDao;
+import com.example.appBookstore.LOPPRODUCT.NhanVien;
 import com.example.appBookstore.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,32 +55,41 @@ public class DoiPass extends Fragment {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkn() > 0) {
-                    nhanVien.setMaKhau(ed_passnew.getText().toString());
-                    int kq = nvdao.Thaypass(nhanVien);
-                    if (kq > 0) {
-                        Toast.makeText(getActivity(), "Thay đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                        ed_passold.setText("");
-                        ed_passnew.setText("");
-                        ed_passen.setText("");
-                    }else {
-                        Toast.makeText(getActivity(),"Thay đổi mật khẩu thất bại",Toast.LENGTH_SHORT).show();
+                try {
+                    if (checkn() > 0) {
+                        try {
+                            nhanVien.setMaKhau(AES.encrypt(ed_passnew.getText().toString()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        int kq = nvdao.Thaypass(nhanVien);
+                        if (kq > 0) {
+                            Toast.makeText(getActivity(), "Thay đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                            ed_passold.setText("");
+                            ed_passnew.setText("");
+                            ed_passen.setText("");
+                        }else {
+                            Toast.makeText(getActivity(),"Thay đổi mật khẩu thất bại",Toast.LENGTH_SHORT).show();
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
 
-    public int checkn() {
+    public int checkn() throws Exception {
         int check = 1;
         if (ed_passold.getText().length() == 0 || ed_passnew.getText().length() == 0 || ed_passen.getText().length() == 0) {
             Toast.makeText(getActivity(), "Hãy điền đầy đủ thông tin !", Toast.LENGTH_SHORT).show();
             check = -1;
         } else {
-            String passold = nhanVien.getMaKhau();
-            String passnew = ed_passnew.getText().toString();
-            String passent = ed_passen.getText().toString();
-            if (!passold.equals(ed_passold.getText().toString())) {
+            String passcurren = nhanVien.getMaKhau();
+            String passold = AES.encrypt(ed_passold.getText().toString());
+            String passnew = AES.encrypt(ed_passnew.getText().toString());
+            String passent = AES.encrypt(ed_passen.getText().toString());
+            if (!passcurren.equals(passold)) {
                 Toast.makeText(getActivity(), "Sai mật khẩu cũ", Toast.LENGTH_SHORT).show();
                 return check = -1;
             }

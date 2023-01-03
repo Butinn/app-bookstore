@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appBookstore.AES;
 import com.example.appBookstore.LOPADAPTER.TV_Adapter;
 import com.example.appBookstore.LOPPRODUCT.ThanhVien;
 import com.example.appBookstore.LOPDAO.ThanhVienDao;
@@ -89,7 +90,11 @@ public class QuanlithanhvienFragment extends Fragment {
                             Toast.makeText(getActivity(), "Chữ cái đầu viết hoa", Toast.LENGTH_SHORT).show();
                         } else {
                             ThanhVien thanhVien = new ThanhVien();
-                            thanhVien.setHoTenTV(ed_hoten.getText().toString());
+                            try {
+                                thanhVien.setHoTenTV(AES.encrypt(ed_hoten.getText().toString()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             thanhVien.setNamsinhTV(ed_namsinh.getText().toString());
                             long kq = vienDao.ADDTV(thanhVien);
                             if (kq > 0) {
